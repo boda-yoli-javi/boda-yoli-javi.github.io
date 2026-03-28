@@ -1318,7 +1318,7 @@
       <p class="section-label">05 · Ponte guapísima</p>
       <h2 class="section-title">Peluquería &amp; <em>Maquillaje</em></h2>
       <p class="beauty-intro">
-        ¡Queremos que todos brilléis ese día! Hemos seleccionado estos centros de confianza, algunos de ellos con condiciones especiales para los invitados a nuestra boda. Menciona que vienes de parte nuestra al reservar.
+        ¡Queremos que todos brilléis ese día! Hemos seleccionado este centro de confianza con condiciones especiales para los invitados a nuestra boda. Menciona que vienes de parte nuestra al reservar.
       </p>
     </div>
 
@@ -1334,20 +1334,22 @@
           <span class="beauty-tag">Recomendado</span>
         </div>
         <div class="beauty-card-body">
-          <h3 class="beauty-name">Salón [Nombre 1]</h3>
+          <h3 class="beauty-name">Ene&amp;Pe Estilistas</h3>
           <div class="beauty-services">
             <span class="beauty-service-tag">💇 Peinado</span>
             <span class="beauty-service-tag">💄 Maquillaje</span>
             <span class="beauty-service-tag">💅 Manicura</span>
+            <span class="beauty-service-tag">🌸 Recogidos</span>
           </div>
           <p class="beauty-desc">Especialistas en looks de boda y evento. Trabajan con cita previa. Reserva con antelación, ¡el día se llena rápido!</p>
-          <div class="beauty-detail">📍 <span>Calle [Dirección], [Ciudad]</span></div>
-          <div class="beauty-detail">📱 <a href="tel:+34600000000">+34 600 000 000</a></div>
+          <div class="beauty-detail">📍 <span>Calle Alfonso Eanes 3, Ciudad Real</span></div>
+          <div class="beauty-detail">📱 <a href="tel:+34600000000">+34 622 01 36 12</a></div>
           <div class="beauty-detail">🌐 <a href="#">www.salonenlace.com</a></div>
-          <div class="beauty-discount">🎁 10% de descuento mencionando la boda de Ana &amp; Carlos</div>
+          <div class="beauty-discount">🎁 10% de descuento mencionando la boda de Yoli &amp; Yavi</div>
         </div>
       </div>
 
+      <!--
       <!-- SALÓN 2 -->
       <div class="beauty-card">
         <div class="beauty-card-img">
@@ -1377,7 +1379,7 @@
           </div>
         </div>
         <div class="beauty-card-body">
-          <h3 class="beauty-name">Peluquería [Nombre 3]</h3>
+          <h3 class="beauty-name">Ene&Pe Estilistas</h3>
           <div class="beauty-services">
             <span class="beauty-service-tag">💇 Peinado</span>
             <span class="beauty-service-tag">🌸 Recogidos</span>
@@ -1389,7 +1391,8 @@
           <div class="beauty-detail">🕐 <span>Lun–Sáb: 9:00–20:00 h</span></div>
         </div>
       </div>
-
+      -->
+      
     </div>
   </div>
 </section>
@@ -1405,7 +1408,7 @@
       </p>
     </div>
     
-    <form id="rsvp-form_no" class="form-grid reveal" action="https://api.snapitforms.com/submit" method="POST">
+    <form id="rsvp-form" class="form-grid reveal">
     <input type="hidden" name="access_key" value="sf_e0ffe8d21df85249e3794bc1bf1a6f83">
       <div class="form-group">
         <label for="nombre">Nombre completo *</label>
@@ -1473,7 +1476,7 @@
             <span>✓ &nbsp;¡Si, iré a la boda en bus!</span>
           </label>
           <label class="radio-option">
-            <input type="radio" name="asistencia" value="no">
+            <input type="radio" name="bus" value="no">
             <span>✗ &nbsp;No, no me hará falta.</span>
           </label>
         </div>
@@ -1637,11 +1640,11 @@
         form.style.display = 'none';
         success.classList.add('visible');
         // PARA PRODUCCIÓN usa Formspree:
-        // fetch('https://formspree.io/f/TUCODIGO', {
-        //   method: 'POST',
-        //   body: new FormData(form),
-        //   headers: { 'Accept': 'application/json' }
-        // }).then(() => { form.style.display='none'; success.classList.add('visible'); });
+        fetch('https://api.snapitforms.com/submit', {
+           method: 'POST',
+           body: new FormData(form),
+           headers: { 'Accept': 'application/json' }
+        }).then(() => { form.style.display='none'; success.classList.add('visible'); });
       });
     }
   });
