@@ -1405,8 +1405,8 @@
       </p>
     </div>
 
-    <form id="rsvp-form" class="form-grid reveal">
-
+    <form id="rsvp-form" class="form-grid reveal" action="https://api.snapitforms.com/submit" method="POST">
+    <input type="hidden" name="access_key" value="sf_e0ffe8d21df85249e3794bc1bf1a6f83">
       <div class="form-group">
         <label for="nombre">Nombre completo *</label>
         <input type="text" id="nombre" name="nombre" placeholder="Tu nombre y apellidos" required>
@@ -1448,7 +1448,7 @@
       </div>
 
       <div class="form-group form-full">
-        <label>¿Asistirás a la ceremonia religiosa?</label>
+        <label>¿Asistirás a la ceremonia?</label>
         <div class="radio-group">
           <label class="radio-option">
             <input type="radio" name="ceremonia" value="si">
@@ -1461,6 +1461,20 @@
           <label class="radio-option">
             <input type="radio" name="ceremonia" value="quizas">
             <span>Puede que sí</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-group form-full">
+        <label>¿Usarás el autobús? *</label>
+        <div class="radio-group">
+          <label class="radio-option">
+            <input type="radio" name="bus" value="si" required>
+            <span>✓ &nbsp;¡Si, iré a la boda en bus!</span>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="asistencia" value="no">
+            <span>✗ &nbsp;No, no me hará falta.</span>
           </label>
         </div>
       </div>
