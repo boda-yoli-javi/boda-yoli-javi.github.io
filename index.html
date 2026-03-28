@@ -1545,9 +1545,7 @@
         <a href="tel:+34660422951" class="contact-link">
           <span>📱</span> +34 660 42 29 51
         </a>
-        <a href="/cdn-cgi/l/email-protection#f5949b94b59098949c99db969a98" class="contact-link">
-          <span>✉️</span> <span class="__cf_email__" data-cfemail="b0d1ded1f0d5ddd1d9dc9ed3dfdd">[email&#160;protected]</span>
-        </a>
+        <a href="mailto:ana@email.com" class="contact-link"><span>✉️</span> ana@email.com</a>
         <a href="https://wa.me/34660422951" target="_blank" class="contact-link">
           <span>💬</span> WhatsApp
         </a>
@@ -1560,9 +1558,7 @@
         <a href="tel:+34695384802" class="contact-link">
           <span>📱</span> +34 695 38 48 02
         </a>
-        <a href="/cdn-cgi/l/email-protection#ef8c8e9d83809caf8a828e8683c18c8082" class="contact-link">
-          <span>✉️</span> <span class="__cf_email__" data-cfemail="f4979586989b87b49199959d98da979b99">[email&#160;protected]</span>
-        </a>
+        <a href="mailto:carlos@email.com" class="contact-link"><span>✉️</span> carlos@email.com</a>
         <a href="https://wa.me/34695384802" target="_blank" class="contact-link">
           <span>💬</span> WhatsApp
         </a>
@@ -1574,7 +1570,7 @@
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-names">Ana &amp; Carlos</div>
+  <div class="footer-names">Javi &amp; Yoli</div>
   <p>14 de junio de 2025 · Madrid</p>
   <p style="margin-top: 0.4rem; font-size: 0.7rem; opacity: 0.5;">Hecho con 🤍 para nuestra boda</p>
 </footer>
@@ -1639,14 +1635,38 @@
         e.preventDefault();
         var form = document.getElementById('rsvp-form');
         var success = document.getElementById('form-success');
-        form.style.display = 'none';
-        success.classList.add('visible');
-        // PARA PRODUCCIÓN usa Formspree:
+        var submitBtn = form.querySelector('button[type="submit"]');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Enviando...';
+
+        // Serialize form to JSON (required by SnapItForms)
+        var data = {};
+        new FormData(form).forEach(function(value, key) { data[key] = value; });
+
         fetch('https://api.snapitforms.com/submit', {
-           method: 'POST',
-           body: new FormData(form),
-           headers: { 'Accept': 'application/json' }
-        }).then(() => { form.style.display='none'; success.classList.add('visible'); });
+          method: 'POST',
+          body: JSON.stringify(data),
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          }
+        })
+        .then(function(response) {
+          if (!response.ok) {
+            return response.json().then(function(err) { throw err; });
+          }
+          return response.json();
+        })
+        .then(function() {
+          form.style.display = 'none';
+          success.classList.add('visible');
+        })
+        .catch(function(err) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Enviar confirmación';
+          alert('Ha habido un error al enviar el formulario. Por favor, inténtalo de nuevo o contáctanos directamente.');
+          console.error('SnapItForms error:', err);
+        });
       });
     }
   });
