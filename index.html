@@ -530,6 +530,46 @@ s<!DOCTYPE html>
       line-height: 1.6;
     }
 
+    /* Conditional form blocks */
+    .form-conditional {
+      display: none;
+      grid-column: 1 / -1;
+    }
+    .form-conditional.visible {
+      display: contents;
+    }
+    .form-contents {
+      display: contents;
+    }
+
+    /* Guest menu blocks */
+    .guest-block {
+      grid-column: 1 / -1;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 6px;
+      padding: 1.2rem 1.4rem;
+      margin-top: 0.5rem;
+      background: rgba(255,255,255,0.04);
+    }
+
+    .guest-block-title {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--rose);
+      margin-bottom: 1rem;
+    }
+
+    .guest-block-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      .guest-block-grid { grid-template-columns: 1fr; }
+    }
+
     /* SUCCESS */
     .form-success {
       display: none;
@@ -1427,6 +1467,8 @@ s<!DOCTYPE html>
     
     <form id="rsvp-form" class="form-grid reveal">
       <input type="hidden" name="access_key" value="sf_e0ffe8d21df85249e3794bc1bf1a6f83">
+
+      <!-- BLOQUE 1: siempre visible -->
       <div class="form-group">
         <label for="nombre">Nombre completo *</label>
         <input type="text" id="nombre" name="nombre" placeholder="Tu nombre y apellidos" required>
@@ -1442,79 +1484,88 @@ s<!DOCTYPE html>
         <input type="tel" id="telefono" name="telefono" placeholder="+34 600 000 000">
       </div>
 
-      <div class="form-group">
-        <label for="acompanantes">Número de acompañantes</label>
-        <select id="acompanantes" name="acompanantes">
-          <option value="0">Solo yo</option>
-          <option value="1">1 acompañante</option>
-          <option value="2">2 acompañantes</option>
-          <option value="3">3 acompañantes</option>
-          <option value="4">4 o más</option>
-        </select>
-      </div>
-
       <div class="form-group form-full">
         <label>¿Asistirás a la boda? *</label>
         <div class="radio-group">
           <label class="radio-option">
-            <input type="radio" name="asistencia" value="si" required>
+            <input type="radio" id="asistencia-si" name="asistencia" value="si" required>
             <span>✓ &nbsp;¡Allí estaré!</span>
           </label>
           <label class="radio-option">
-            <input type="radio" name="asistencia" value="no">
+            <input type="radio" id="asistencia-no" name="asistencia" value="no">
             <span>✗ &nbsp;No podré asistir</span>
           </label>
         </div>
       </div>
 
-      <div class="form-group form-full">
-        <label>¿Asistirás a la ceremonia?</label>
-        <div class="radio-group">
-          <label class="radio-option">
-            <input type="radio" name="ceremonia" value="si">
-            <span>Sí</span>
-          </label>
-          <label class="radio-option">
-            <input type="radio" name="ceremonia" value="no">
-            <span>No, solo al banquete</span>
-          </label>
-          <label class="radio-option">
-            <input type="radio" name="ceremonia" value="quizas">
-            <span>Puede que sí</span>
-          </label>
+      <!-- BLOQUE 2: solo si asistencia = "si" -->
+      <div id="bloque-asiste" class="form-conditional form-contents">
+
+        <div class="form-group form-full">
+          <label>¿Asistirás a la ceremonia?</label>
+          <div class="radio-group">
+            <label class="radio-option">
+              <input type="radio" name="ceremonia" value="si">
+              <span>Sí</span>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="ceremonia" value="no">
+              <span>No, solo al banquete</span>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="ceremonia" value="quizas">
+              <span>Puede que sí</span>
+            </label>
+          </div>
         </div>
-      </div>
 
-      <div class="form-group form-full">
-        <label>¿Usarás el autobús? *</label>
-        <div class="radio-group">
-          <label class="radio-option">
-            <input type="radio" name="bus" value="si" required>
-            <span>✓ &nbsp;¡Si, iré a la boda en bus!</span>
-          </label>
-          <label class="radio-option">
-            <input type="radio" name="bus" value="no">
-            <span>✗ &nbsp;No, no me hará falta.</span>
-          </label>
+        <div class="form-group form-full">
+          <label>¿Usarás el autobús?</label>
+          <div class="radio-group">
+            <label class="radio-option">
+              <input type="radio" name="bus" value="si">
+              <span>✓ &nbsp;¡Sí, iré en bus!</span>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="bus" value="no">
+              <span>✗ &nbsp;No, no me hará falta.</span>
+            </label>
+          </div>
         </div>
+
+        <div class="form-group form-full">
+          <label for="acompanantes">Número de acompañantes</label>
+          <select id="acompanantes" name="acompanantes">
+            <option value="0">Solo yo</option>
+            <option value="1">1 acompañante</option>
+            <option value="2">2 acompañantes</option>
+            <option value="3">3 acompañantes</option>
+            <option value="4">4 acompañantes</option>
+            <option value="5">5 acompañantes</option>
+          </select>
+        </div>
+
+        <!-- BLOQUE 3: solo si acompañantes > 0 -->
+        <div id="bloque-ninos" class="form-conditional form-contents">
+          <div class="form-group form-full">
+            <label for="ninos">¿Cuántos de los acompañantes son niños?</label>
+            <select id="ninos" name="ninos">
+              <option value="0">Ninguno</option>
+              <option value="1">1 niño</option>
+              <option value="2">2 niños</option>
+              <option value="3">3 niños</option>
+              <option value="4">4 niños</option>
+              <option value="5">5 niños</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- BLOQUE 4: menú y alergias por asistente (generado dinámicamente) -->
+        <div id="bloque-menus" class="form-contents"></div>
+
       </div>
 
-      <div class="form-group">
-        <label for="menu">Menú preferido</label>
-        <select id="menu" name="menu">
-          <option value="">Selecciona...</option>
-          <option value="normal">Menú normal</option>
-          <option value="vegetariano">Vegetariano</option>
-          <option value="vegano">Vegano</option>
-          <option value="infantil">Menú infantil</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="alergias">Alergias o intolerancias</label>
-        <input type="text" id="alergias" name="alergias" placeholder="Ej: gluten, lactosa, frutos secos...">
-      </div>
-
+      <!-- Siempre visible al final -->
       <div class="form-group form-full">
         <label for="mensaje">¿Quieres decirnos algo? 💌</label>
         <textarea id="mensaje" name="mensaje" placeholder="Escríbenos una nota, una canción para la pista de baile o lo que quieras..."></textarea>
@@ -1643,7 +1694,82 @@ s<!DOCTYPE html>
       reveals.forEach(function(el) { el.classList.add('visible'); });
     }
 
-    // FORM SUBMIT
+    // ── FORMULARIO DINÁMICO ──────────────────────────────────────────────────
+
+    var bloqueAsiste  = document.getElementById('bloque-asiste');
+    var bloqueNinos   = document.getElementById('bloque-ninos');
+    var bloqueMenus   = document.getElementById('bloque-menus');
+    var selectAcomp   = document.getElementById('acompanantes');
+
+    // Mostrar/ocultar bloque según asistencia
+    document.querySelectorAll('input[name="asistencia"]').forEach(function(radio) {
+      radio.addEventListener('change', function() {
+        if (this.value === 'si') {
+          bloqueAsiste.classList.add('visible');
+        } else {
+          bloqueAsiste.classList.remove('visible');
+          bloqueNinos.classList.remove('visible');
+          bloqueMenus.innerHTML = '';
+          selectAcomp.value = '0';
+        }
+      });
+    });
+
+    // Mostrar/ocultar niños y generar tarjetas de menú
+    selectAcomp.addEventListener('change', function() {
+      var n = parseInt(this.value, 10);
+      if (n > 0) {
+        bloqueNinos.classList.add('visible');
+        // Ajustar max niños al nº de acompañantes
+        var selNinos = document.getElementById('ninos');
+        for (var i = 0; i < selNinos.options.length; i++) {
+          selNinos.options[i].disabled = (i > n);
+        }
+        if (parseInt(selNinos.value, 10) > n) selNinos.value = '0';
+      } else {
+        bloqueNinos.classList.remove('visible');
+      }
+      renderMenuBlocks(n);
+    });
+
+    function menuSelect(name) {
+      return '<select name="' + name + '_menu">' +
+        '<option value="">Selecciona...</option>' +
+        '<option value="normal">Menú normal</option>' +
+        '<option value="vegetariano">Vegetariano</option>' +
+        '<option value="vegano">Vegano</option>' +
+        '<option value="infantil">Menú infantil</option>' +
+        '</select>';
+    }
+
+    function renderMenuBlocks(numAcomp) {
+      bloqueMenus.innerHTML = '';
+
+      // Bloque del titular (siempre)
+      var html = '<div class="guest-block">';
+      html += '<div class="guest-block-title">Tu menú</div>';
+      html += '<div class="guest-block-grid">';
+      html += '<div class="form-group"><label>Menú preferido</label>' + menuSelect('titular') + '</div>';
+      html += '<div class="form-group"><label>Alergias o intolerancias</label><input type="text" name="titular_alergias" placeholder="Ej: gluten, lactosa..."></div>';
+      html += '</div></div>';
+
+      // Bloques de acompañantes
+      for (var i = 1; i <= numAcomp; i++) {
+        html += '<div class="guest-block">';
+        html += '<div class="guest-block-title">Acompañante ' + i + '</div>';
+        html += '<div class="guest-block-grid">';
+        html += '<div class="form-group"><label>Menú preferido</label>' + menuSelect('acomp' + i) + '</div>';
+        html += '<div class="form-group"><label>Alergias o intolerancias</label><input type="text" name="acomp' + i + '_alergias" placeholder="Ej: gluten, lactosa..."></div>';
+        html += '</div></div>';
+      }
+
+      bloqueMenus.innerHTML = html;
+    }
+
+    // Generar bloque del titular desde el inicio (oculto dentro de bloque-asiste)
+    renderMenuBlocks(0);
+
+    // ── ENVÍO ────────────────────────────────────────────────────────────────
     var rsvpForm = document.getElementById('rsvp-form');
     if (rsvpForm) {
       rsvpForm.addEventListener('submit', function(e) {
