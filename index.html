@@ -536,10 +536,17 @@ s<!DOCTYPE html>
       grid-column: 1 / -1;
     }
     .form-conditional.visible {
-      display: contents;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+      grid-column: 1 / -1;
     }
-    .form-contents {
-      display: contents;
+    /* Full-width items inside any conditional grid */
+    .form-conditional > .form-full,
+    .form-conditional > .guest-block,
+    .form-conditional > #bloque-ninos,
+    .form-conditional > #bloque-menus {
+      grid-column: 1 / -1;
     }
 
     /* Guest menu blocks */
@@ -1546,7 +1553,7 @@ s<!DOCTYPE html>
         </div>
 
         <!-- BLOQUE 3: solo si acompañantes > 0 -->
-        <div id="bloque-ninos" class="form-conditional form-contents">
+        <div id="bloque-ninos" class="form-conditional">
           <div class="form-group form-full">
             <label for="ninos">¿Cuántos de los acompañantes son niños?</label>
             <select id="ninos" name="ninos">
@@ -1561,7 +1568,7 @@ s<!DOCTYPE html>
         </div>
 
         <!-- BLOQUE 4: menú y alergias por asistente (generado dinámicamente) -->
-        <div id="bloque-menus" class="form-contents"></div>
+        <div id="bloque-menus"></div>
 
       </div>
 
