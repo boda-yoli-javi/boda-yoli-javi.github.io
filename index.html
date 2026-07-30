@@ -1743,8 +1743,8 @@ s<!DOCTYPE html>
     });
 
     function menuSelect(name) {
-      return '<select name="' + name + '_menu">' +
-        '<option value="">Selecciona...</option>' +
+      return '<select name="' + name + '_menu" required>' +
+        '<option value="" disabled selected>Selecciona...</option>' +
         '<option value="normal-cochinillo">Menú normal - Cochinillo asado</option>' +
         '<option value="normal-corvina">Menú normal - Corvina salvaje asada</option>' +
         '<option value="vegetariano">Vegetariano</option>' +
@@ -1788,6 +1788,23 @@ s<!DOCTYPE html>
         var form = document.getElementById('rsvp-form');
         var success = document.getElementById('form-success');
         var submitBtn = form.querySelector('button[type="submit"]');
+
+        // Validar que el menú esté seleccionado para el titular y cada acompañante
+        var menuSelects = form.querySelectorAll('select[name$="_menu"]');
+        for (var mi = 0; mi < menuSelects.length; mi++) {
+          if (!menuSelects[mi].value) {
+            menuSelects[mi].focus();
+            if (typeof menuSelects[mi].reportValidity === 'function') {
+              menuSelects[mi].setCustomValidity('Selecciona el menú para este comensal.');
+              menuSelects[mi].reportValidity();
+              menuSelects[mi].setCustomValidity('');
+            } else {
+              alert('Por favor, selecciona el menú para el titular y para todos los acompañantes.');
+            }
+            return;
+          }
+        }
+
         submitBtn.disabled = true;
         submitBtn.textContent = 'Enviando...';
 
